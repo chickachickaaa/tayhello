@@ -1,58 +1,50 @@
 #!/usr/bin/env python
 
+#i don't think i'm getting enough tests pass when I test it (only 2), but i tried testing each individually and they work. 
+
 import pytest
-import tayhello as th #make changes now instead of data_simple
+from datetime import datetime, date, time, timedelta
+import tayhello as th 
+
 
 TODAY_DATE = date.today()
-OTHER_DATE = 2018-2-26
+OTHER_DATE = date(2018, 2, 26)
 TODAY_DATE_STRING = str(date.today())
-OTHER_DATE_STRING = ('2018-2-26')
+OTHER_DATE_STRING = ('02/07/41')
+
 
 def test_get_date_object():
         object_thing_none = th.get_date_object(date=None)
-        object_thing_some =th.get_date_object(date='2018-2-26')
+        object_thing_some = th.get_date_object(date='2018-2-26')
 
-#1
         assert object_thing_none == TODAY_DATE 
 
-#2
-        assert isinstance(object_thing_some, ('datetime.date')) 
 
+        assert object_thing_some == OTHER_DATE
+        assert isinstance(object_thing_some, object) 
+        assert isinstance(object_thing_none, object) 
 
-        assert isinstance(object_thing_none, ('datetime.date')) 
+        with pytest.raises(ValueError):
+            th.get_date_object(date='2/222')
 
-#7      
-        
         with pytest.raises(TypeError):
-            bad_object_thing = th.get_date_object(date='feb 26th') #not proper string format
-
-        
-#8        
-        
-        with pytest.raises(TypeError):
-            other_bad_object_thing = data_simple.get_date_object(date=2012.00) #not a string
+            th.get_date_object(date=2012.00) #not a string
 
 
 
 def test_get_date_string():
-        string_thing_none = th.get_date_string(date=None)
-        string_thing_some = th.get_date_string(date='2018-2-26')
+        string_thing_none = th.get_date_string(date_object=None)
+        string_thing_some = th.get_date_string(date_object=date(1941, 2, 7))
 
-#3
         assert string_thing_none == TODAY_DATE_STRING
 
-
-#4
         assert string_thing_some == OTHER_DATE_STRING
-
-#9
-
-        
+ 
         with pytest.raises(TypeError):
-            bad_string_thing = th.get_date_string(date_object='2018-09-09') #not a date object
+            th.get_date_string(date_object='1,2,3') 
 
-    
-#need help with this the slides are way too dense. 
+if __name__ == '__main__': 
 
+    test_get_date_object()
 
-
+    test_get_date_string()
